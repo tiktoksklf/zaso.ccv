@@ -1,0 +1,612 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZWARE GIVEAWAY · Discord Accounts</title>
+    <style>
+        /* ---------- RESET & BASE ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: #0a0a12;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #e2e8f0;
+        }
+
+        /* ---------- CARD ---------- */
+        .card {
+            background: #14141f;
+            border: 1px solid #28283a;
+            border-radius: 24px;
+            padding: 48px 40px;
+            width: 100%;
+            max-width: 560px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(139, 92, 246, 0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        /* ---------- HEADER ---------- */
+        .header {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .header .logo {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: #8b5cf6;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        /* ---------- FORM ---------- */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            background: #0c0c14;
+            border: 1px solid #28283a;
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 15px;
+            color: #e2e8f0;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input::placeholder {
+            color: #4a4a5a;
+        }
+
+        .form-group input:focus {
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+        }
+
+        .form-group input:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* ---------- BUTTON ---------- */
+        .btn {
+            width: 100%;
+            background: #8b5cf6;
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            padding: 16px 24px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: #a78bfa;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn:disabled {
+            background: #4c1d95;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .btn-discord {
+            background: #5865F2;
+        }
+
+        .btn-discord:hover {
+            background: #4752c4;
+        }
+
+        /* ---------- STATUS ---------- */
+        .status {
+            margin-top: 16px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 1.5;
+            display: none;
+        }
+
+        .status.error {
+            display: block;
+            background: rgba(248, 113, 113, 0.1);
+            border: 1px solid rgba(248, 113, 113, 0.3);
+            color: #f87171;
+        }
+
+        .status.success {
+            display: block;
+            background: rgba(52, 211, 153, 0.1);
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            color: #34d399;
+        }
+
+        .status.info {
+            display: block;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: #a78bfa;
+        }
+
+        /* ---------- RESULT ---------- */
+        .result {
+            margin-top: 24px;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .result .account-box {
+            background: #0c0c14;
+            border: 1px solid #28283a;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 12px;
+        }
+
+        .result .account-box .field {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #1e1e2e;
+        }
+
+        .result .account-box .field:last-child {
+            border-bottom: none;
+        }
+
+        .result .account-box .field .label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result .account-box .field .value {
+            font-size: 13px;
+            color: #e2e8f0;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            word-break: break-all;
+            text-align: right;
+            max-width: 70%;
+        }
+
+        .result .account-box .field .value.copyable {
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .result .account-box .field .value.copyable:hover {
+            color: #a78bfa;
+        }
+
+        .result .note {
+            font-size: 12px;
+            color: #64748b;
+            text-align: center;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        /* ---------- FOOTER ---------- */
+        .footer {
+            margin-top: 32px;
+            text-align: center;
+            font-size: 11px;
+            color: #3a3a4a;
+        }
+
+        .footer span {
+            color: #8b5cf6;
+        }
+
+        /* ---------- IP BADGE ---------- */
+        .ip-badge {
+            display: inline-block;
+            background: #1a1a2e;
+            border: 1px solid #28283a;
+            border-radius: 8px;
+            padding: 4px 10px;
+            font-size: 11px;
+            color: #64748b;
+            font-family: 'SF Mono', monospace;
+            margin-top: 8px;
+        }
+
+        /* ---------- JOIN SECTION ---------- */
+        .join-section {
+            display: block;
+        }
+
+        .join-section.hidden {
+            display: none;
+        }
+
+        .claim-section {
+            display: none;
+        }
+
+        .claim-section.visible {
+            display: block;
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 480px) {
+            .card {
+                padding: 32px 20px;
+            }
+            .header h1 {
+                font-size: 22px;
+            }
+            .result .account-box .field {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+            .result .account-box .field .value {
+                text-align: left;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="logo">ZWARE GIVEAWAY</div>
+            <h1>Free Discord Accounts</h1>
+            <p>Join our Discord server to unlock the giveaway.<br>One claim per IP &amp; username. Accounts are removed permanently once claimed.</p>
+        </div>
+
+        <!-- JOIN SECTION (shown first) -->
+        <div class="join-section" id="joinSection">
+            <button class="btn btn-discord" onclick="openDiscord()">
+                <span>🔗</span> Join Discord Server
+            </button>
+            <button class="btn" style="margin-top: 12px; background: #1e1e2e; color: #94a3b8;" onclick="confirmJoined()">
+                <span>✅</span> I've Joined — Continue
+            </button>
+            <div class="status info" id="joinStatus" style="display: block; margin-top: 16px;">
+                You must join <strong>discord.gg/zware</strong> to claim an account.
+            </div>
+        </div>
+
+        <!-- CLAIM SECTION (hidden until joined) -->
+        <div class="claim-section" id="claimSection">
+            <!-- FORM -->
+            <div class="form-group">
+                <label for="discordUser">Discord Username</label>
+                <input type="text" id="discordUser" placeholder="e.g. zware_user" autocomplete="off" spellcheck="false">
+            </div>
+
+            <button class="btn" id="claimBtn" onclick="claimAccount()">
+                <span>🎁</span> Claim Account
+            </button>
+
+            <!-- STATUS -->
+            <div class="status" id="status"></div>
+
+            <!-- RESULT -->
+            <div class="result" id="result">
+                <div class="account-box" id="accountBox">
+                    <!-- filled by JS -->
+                </div>
+                <div class="note">
+                    ⚠️ Change the password immediately after logging in.<br>
+                    We are not responsible for any misuse.
+                </div>
+            </div>
+        </div>
+
+        <!-- IP BADGE -->
+        <div style="text-align: center; margin-top: 16px;">
+            <div class="ip-badge" id="ipBadge">IP: 169.150.227.230</div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <span>ZWARE</span> · Educational purposes only
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        //  CONFIG
+        // ============================================================
+        const DISCORD_INVITE = "https://discord.gg/zware";
+        const JOIN_STORAGE_KEY = "zware_joined_v1";
+
+        // ============================================================
+        //  ACCOUNT LIST (email : password) — TOKENS REMOVED
+        // ============================================================
+        const ACCOUNTS = [
+            { email: "leandrobakermark07@pcapmail.bar", password: "LK66O!XOSS4g" },
+            { email: "imloercarterbury1986@pcapmail.bar", password: "I8yMfVusV-5b" },
+            { email: "alrionblackbury@pcapmail.bar", password: "?S78x87#ayGG" },
+            { email: "curtis04@pcapmail.bar", password: ".QnxTc1L%!wC" },
+            { email: "kennethburnmont@pcapmail.bar", password: "ZM0ZUs3_!T2r" },
+            { email: "caleeonpeterson90@pcapmail.bar", password: "uXpf2!0jT#xP" },
+            { email: "bemiencruzton90@pcapmail.bar", password: "7R4kdG1AVR.6" },
+            { email: "cookbellebele@pcapmail.bar", password: "i-dAQAYr4#tt" },
+            { email: "caleajonesfield04@pcapmail.bar", password: "ca5sAt8--!GK" },
+            { email: "bakerfordpaleean@pcapmail.bar", password: "PW09#zG9?3E0" },
+            { email: "lawrencejohnson2001@pcapmail.bar", password: "zdSx-x.-C4PK" },
+            { email: "dantemurphybry96@pcapmail.bar", password: "sxMHetN7T!F%" },
+            { email: "ellynersouthcliff@pcapmail.bar", password: "GLE3I47ylD_I" },
+            { email: "catisimorgan2006@pcapmail.bar", password: "_cxz6.O&ykeZ" },
+            { email: "halynarcruzton@pcapmail.bar", password: "PCcM-4mXBXKT" },
+            { email: "kadanancastilloshaw01@pcapmail.bar", password: "mXI3&d!&-5hG" },
+            { email: "lemararalvarezmore05@pcapmail.bar", password: "6LZ?i9?lq%vu" },
+            { email: "edwardsbry96_42jgp@pcapmail.bar", password: "ppoJcJEm.96P" },
+            { email: "leandrodalebel@pcapmail.bar", password: "hJP_G3GFhq-#" },
+            { email: "karao96@pcapmail.bar", password: "?GNluZy?1xeZ" },
+            { email: "frankandersonshaw05@pcapmail.bar", password: "sRdtX?fN9?0F" },
+            { email: "falaarcruzton@pcapmail.bar", password: "OW3bZf3Yw-oY" },
+            { email: "giloandalemore1989@pcapmail.bar", password: "nXBK.8Ayh.GB" },
+            { email: "imshaostewartmar02@pcapmail.bar", password: "1-w_1WAj430x" },
+            { email: "kariusportford1971@pcapmail.bar", password: "J2ey0%y.gG?0" },
+            { email: "gisonyhartkin1978@pcapmail.bar", password: "Q5u%nW2ceg?i" },
+            { email: "alnaonlakebury@pcapmail.bar", password: "7skJ#!#r8u2v" },
+            { email: "abigailrichardson92@pcapmail.bar", password: "ILe79l&.aFc1" },
+            { email: "austingraywright2006@pcapmail.bar", password: "oA5bg?BP-_Fi" },
+            { email: "arthur90@pcapmail.bar", password: "aA%fFpWAH.I6" },
+            { email: "caricosmithshaw90@pcapmail.bar", password: "nxm4#6mwjuY5" },
+            { email: "imleannelsonlin97@pcapmail.bar", password: "?XUaIxZ-dM5c" },
+            { email: "calvinramirezwell1984@pcapmail.bar", password: "Xp%6Wu#801Gf" },
+            { email: "altayruizcroft1998@pcapmail.bar", password: "NQ0a2_viPUQM" },
+            { email: "letao97@pcapmail.bar", password: "C?C?y5gK6#1D" },
+            { email: "jamirermoore1986@pcapmail.bar", password: "B-v%2%3RtmKq" },
+            { email: "dennisharrisfield99@pcapmail.bar", password: "2D#c0uHs8Ta-" },
+            { email: "letaojohnsonden1994@pcapmail.bar", password: "8X&XiVpT77sa" },
+            { email: "aideneastkin2001@pcapmail.bar", password: "u&rL-4PR3.U2" },
+            { email: "catisergonzalezson@pcapmail.bar", password: "GD2A6?Sy!?Ql" },
+            { email: "hugocoxburn@pcapmail.bar", password: "qPaY&k_W5AV2" },
+            { email: "hernandezcliff99@pcapmail.bar", password: "!3IrtSXH7.YW" },
+            { email: "belfield91@pcapmail.bar", password: "pKKm.cC6n3-e" },
+            { email: "gary96@pcapmail.bar", password: "!Smr56-UYF?g" },
+            { email: "lawrencewinkin96@pcapmail.bar", password: "Hf%U!B5WXqZx" },
+            { email: "jacobsunbel1994@pcapmail.bar", password: "&n39Jbmqm-N4" },
+            { email: "angelacollinsburn96@pcapmail.bar", password: "P_W289cxW1-4" }
+        ];
+
+        // ============================================================
+        //  STORAGE KEYS (zware prefix)
+        // ============================================================
+        const STORAGE_KEYS = {
+            CLAIMED_IPS: 'zware_claimed_ips_v1',
+            CLAIMED_USERNAMES: 'zware_claimed_usernames_v1',
+            CLAIMED_ACCOUNTS: 'zware_claimed_accounts_v1',
+            GLOBAL_CLAIMED: 'zware_global_claimed_v1'
+        };
+
+        let currentIP = null;
+        let isProcessing = false;
+
+        // ---------- HELPERS ----------
+        function getClaimedIPs() {
+            try { return JSON.parse(localStorage.getItem(STORAGE_KEYS.CLAIMED_IPS) || '[]'); } catch { return []; }
+        }
+        function getClaimedUsernames() {
+            try { return JSON.parse(localStorage.getItem(STORAGE_KEYS.CLAIMED_USERNAMES) || '[]'); } catch { return []; }
+        }
+        function getClaimedAccounts() {
+            try { return JSON.parse(localStorage.getItem(STORAGE_KEYS.CLAIMED_ACCOUNTS) || '[]'); } catch { return []; }
+        }
+        function getGlobalClaimed() {
+            try { return JSON.parse(localStorage.getItem(STORAGE_KEYS.GLOBAL_CLAIMED) || '[]'); } catch { return []; }
+        }
+        function saveClaimedIPs(ips) { localStorage.setItem(STORAGE_KEYS.CLAIMED_IPS, JSON.stringify(ips)); }
+        function saveClaimedUsernames(usernames) { localStorage.setItem(STORAGE_KEYS.CLAIMED_USERNAMES, JSON.stringify(usernames)); }
+        function saveClaimedAccounts(accounts) { localStorage.setItem(STORAGE_KEYS.CLAIMED_ACCOUNTS, JSON.stringify(accounts)); }
+        function saveGlobalClaimed(globalClaimed) { localStorage.setItem(STORAGE_KEYS.GLOBAL_CLAIMED, JSON.stringify(globalClaimed)); }
+
+        // ---------- JOIN CHECK ----------
+        function hasJoined() {
+            return localStorage.getItem(JOIN_STORAGE_KEY) === 'true';
+        }
+        function setJoined() {
+            localStorage.setItem(JOIN_STORAGE_KEY, 'true');
+        }
+        function openDiscord() {
+            window.open(DISCORD_INVITE, '_blank');
+        }
+        function confirmJoined() {
+            setJoined();
+            showClaimSection();
+        }
+        function showJoinSection() {
+            document.getElementById('joinSection').classList.remove('hidden');
+            document.getElementById('claimSection').classList.remove('visible');
+        }
+        function showClaimSection() {
+            document.getElementById('joinSection').classList.add('hidden');
+            document.getElementById('claimSection').classList.add('visible');
+        }
+
+        // ---------- IP FETCH ----------
+        async function fetchIP() {
+            try {
+                const res = await fetch('https://api.ipify.org?format=json');
+                const data = await res.json();
+                currentIP = data.ip;
+                document.getElementById('ipBadge').textContent = `IP: ${currentIP}`;
+            } catch (e) {
+                currentIP = 'unknown';
+                document.getElementById('ipBadge').textContent = 'IP: unavailable';
+            }
+        }
+
+        // ---------- UI HELPERS ----------
+        function showStatus(message, type) {
+            const el = document.getElementById('status');
+            el.className = 'status ' + type;
+            el.textContent = message;
+        }
+        function hideStatus() {
+            const el = document.getElementById('status');
+            el.className = 'status';
+            el.textContent = '';
+        }
+
+        function showResult(account) {
+            const box = document.getElementById('accountBox');
+            box.innerHTML = `
+                <div class="field">
+                    <span class="label">Email</span>
+                    <span class="value copyable" onclick="copyText('${account.email}')" title="Click to copy">${account.email}</span>
+                </div>
+                <div class="field">
+                    <span class="label">Password</span>
+                    <span class="value copyable" onclick="copyText('${account.password}')" title="Click to copy">${account.password}</span>
+                </div>
+            `;
+            document.getElementById('result').classList.add('show');
+        }
+
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showStatus('Copied to clipboard!', 'info');
+                setTimeout(hideStatus, 2000);
+            }).catch(() => {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                showStatus('Copied to clipboard!', 'info');
+                setTimeout(hideStatus, 2000);
+            });
+        }
+
+        // ---------- MAIN CLAIM ----------
+        async function claimAccount() {
+            if (isProcessing) return;
+
+            const usernameInput = document.getElementById('discordUser');
+            const username = usernameInput.value.trim();
+
+            if (!username) { showStatus('Please enter your Discord username.', 'error'); return; }
+            if (username.length < 2 || username.length > 32) { showStatus('Username must be between 2 and 32 characters.', 'error'); return; }
+            if (!/^[a-zA-Z0-9._#]+$/.test(username)) { showStatus('Username contains invalid characters. Only letters, numbers, ., _, # are allowed.', 'error'); return; }
+
+            if (!currentIP) {
+                showStatus('Fetching your IP, please wait...', 'info');
+                await fetchIP();
+                if (!currentIP) { showStatus('Could not determine your IP. Please refresh.', 'error'); return; }
+            }
+
+            const claimedIPs = getClaimedIPs();
+            if (claimedIPs.includes(currentIP)) { showStatus('You have already claimed an account from this IP address.', 'error'); return; }
+
+            const claimedUsernames = getClaimedUsernames();
+            if (claimedUsernames.includes(username.toLowerCase())) { showStatus('This Discord username has already claimed an account.', 'error'); return; }
+
+            const claimedAccounts = getClaimedAccounts();
+            const globalClaimed = getGlobalClaimed();
+            const availableIndices = ACCOUNTS.map((_, i) => i).filter(i => !claimedAccounts.includes(i) && !globalClaimed.includes(i));
+
+            if (availableIndices.length === 0) { showStatus('All accounts have been claimed. Check back later!', 'error'); return; }
+
+            const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+            const account = ACCOUNTS[randomIndex];
+
+            claimedAccounts.push(randomIndex);
+            claimedIPs.push(currentIP);
+            claimedUsernames.push(username.toLowerCase());
+            globalClaimed.push(randomIndex);
+
+            saveClaimedAccounts(claimedAccounts);
+            saveClaimedIPs(claimedIPs);
+            saveClaimedUsernames(claimedUsernames);
+            saveGlobalClaimed(globalClaimed);
+
+            showResult(account);
+            showStatus('✅ Account claimed successfully! Change the password immediately.', 'success');
+
+            usernameInput.disabled = true;
+            document.getElementById('claimBtn').disabled = true;
+            document.getElementById('claimBtn').innerHTML = '<span>✔</span> Claimed';
+        }
+
+        // ---------- INIT ----------
+        window.addEventListener('load', async () => {
+            await fetchIP();
+
+            if (hasJoined()) {
+                showClaimSection();
+            } else {
+                showJoinSection();
+            }
+
+            const claimedIPs = getClaimedIPs();
+            if (currentIP && claimedIPs.includes(currentIP)) {
+                showStatus('You have already claimed an account from this IP address.', 'error');
+                const btn = document.getElementById('claimBtn');
+                if (btn) {
+                    btn.disabled = true;
+                    btn.innerHTML = '<span>⛔</span> Already Claimed';
+                }
+                const userInput = document.getElementById('discordUser');
+                if (userInput) userInput.disabled = true;
+            }
+        });
+    </script>
+
+</body></html>
