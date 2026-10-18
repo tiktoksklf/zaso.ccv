@@ -1,16 +1,22 @@
-ZASO.CC — GitHub Pages + Supabase starter
+ZASO.CC MOBILE PRO AD-SPACE FIX
 
-Upload all files in this ZIP to the ROOT of your GitHub Pages repository.
-Keep index.html, auth.html, dashboard.html, profile.html, 404.html, app.css and supabase-config.js together.
+WHAT CHANGED
+The public profile used to read subscriptions directly. Under Supabase RLS,
+logged-out visitors (such as a mobile browser) may get no subscription row,
+so even Pro profiles were treated as Free and rendered the ad placeholder.
 
-Supabase Auth URL configuration: Site URL https://zaso.cc ; Redirect URLs https://zaso.cc/** and localhost as needed.
+This patch uses a public SECURITY DEFINER RPC returning only an ad-free boolean.
+It never makes customer/subscription identifiers publicly readable.
+If the RPC fails temporarily, the page does not insert ads.
 
-Existing SQL tables/RLS from your earlier setup are used.
-The first profile save happens after verification and sign-in. Unique username is enforced in the database.
+INSTALL (BOTH STEPS REQUIRED)
+1) Supabase Dashboard -> SQL Editor -> New Query:
+   Copy all of ad-free-visibility.sql and click Run.
+2) GitHub repository: REPLACE the existing root profile.html with this updated
+   profile.html, commit, and wait for GitHub Pages to publish.
+   Leave all other site files alone.
+3) Open a Pro profile in mobile private/incognito mode and hard refresh.
+   Expected: no 'Advertisement space' area. Free profiles still have an ad area.
 
-IMPORTANT: This is an initial working version. Username availability is not a reservation until profile save.
-GitHub Pages 404.html supports /username URLs as a fallback, but it is not true server-side routing.
-Paid subscription checkout, media uploads, analytics collection and ad-network integration are NOT implemented.
-Free-tier profiles show a placeholder ad area, not real advertisements.
-The homepage preview remains a static design demonstration. The published profiles use the starter profile template.
-For production: add reserved username rules, abuse prevention, server-side subscription webhooks, secure analytics ingestion, and proper error monitoring.
+Do NOT place the Supabase SQL file in GitHub and expect it to run: execute it
+in Supabase SQL Editor. No need to change Stripe or user subscriptions.
