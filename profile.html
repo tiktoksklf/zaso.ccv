@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101017">
+<meta name="description" content="Discover a creator's links and public profile on zaso.cc.">
+<title>Profile — zaso.cc</title>
+<link rel="stylesheet" href="templates.css">
+<link rel="stylesheet" href="social.css">
+<link rel="stylesheet" href="effects.css">
+<style>
+*{box-sizing:border-box}body{margin:0}a:focus-visible,button:focus-visible{outline:3px solid #d6b7ff;outline-offset:3px}
+.age-overlay{position:fixed;inset:0;z-index:9999;background:#06050bdc;backdrop-filter:blur(16px);display:grid;place-items:center;padding:20px}
+.age-overlay[hidden]{display:none}.age-box{background:#1b1726;color:#f6f2ff;border:1px solid #c7adee65;border-radius:24px;max-width:420px;width:100%;padding:32px;box-shadow:0 30px 90px #0009;text-align:center;font:15px/1.6 system-ui}.age-box h2{font-size:26px;margin:12px 0}.age-box p{color:#c7bfce}.age-actions{display:flex;gap:12px;justify-content:center;margin-top:22px}.age-actions button{background:#c7adee;color:#1c1329;border:0;border-radius:11px;padding:12px 22px;font-weight:700;cursor:pointer}.age-actions .cancel{background:#ffffff17;color:#fff;border:1px solid #ffffff30}
+</style>
+</head>
+<body>
+<main id="stage" class="profile-stage" data-template="afterhours"><section class="creator" id="card" aria-live="polite"><p>Loading profile…</p></section></main>
+<div class="age-overlay" id="adultWarning" role="dialog" aria-modal="true" aria-labelledby="ageTitle" hidden><div class="age-box"><div style="font-size:34px">⚠</div><h2 id="ageTitle">Potential 18+ content</h2><p>This link may contain adult content intended for people aged 18 or older. Do you want to continue to the external website?</p><div class="age-actions"><button id="adultCancel" class="cancel" type="button">Cancel</button><button id="adultContinue" type="button">Continue ↗</button></div><p style="font-size:12px">zaso.cc does not control content on external sites.</p></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="supabase-config.js"></script>
+<script src="social.js"></script>
+<script src="wallet.js"></script>
+<script src="profile-renderer.js"></script>
+<script src="effects.js"></script>
+<script>
+function showAdultWarning(url){
+ const modal=document.getElementById('adultWarning');modal.hidden=false;document.body.style.overflow='hidden';
+ const cancel=document.getElementById('adultCancel');const proceed=document.getElementById('adultContinue');
+ cancel.focus();
+ function close(){modal.hidden=true;document.body.style.overflow='';cancel.removeEventListener('click',close);proceed.removeEventListener('click',go);modal.removeEventListener('keydown',key)}
+ function go(){close();window.open(url,'_blank','noopener,noreferrer')}
+ function key(e){if(e.key==='Escape')close()}
+ cancel.addEventListener('click',close);proceed.addEventListener('click',go);modal.addEventListener('keydown',key);
+}
+(async()=>{
+ const raw=new URLSearchParams(location.search).get('u')||decodeURIComponent(location.pathname.split('/').filter(Boolean).pop()||'');
+ const username=raw.toLowerCase();const card=document.getElementById('card');
+ function fail(msg){card.replaceChildren();const p=document.createElement('p');p.textContent=msg;card.append(p)}
+ if(!validUsername(username)){fail('Profile not found');return}
+ const {data:p,error}=await db.from('profiles').select('*').eq('username',username).maybeSingle();
+ if(error||!p){fail('Profile not found');return}
+ document.title=(p.display_name||p.username)+' — zaso.cc';
+ const {data:links, error:linkError}=await db.from('profile_links').select('title,url,icon').eq('user_id',p.id).order('position');
+ if(linkError)console.warn('Profile links could not be loaded',linkError.message);
+ const {data:sub}=await db.from('subscriptions').select('plan,status').eq('user_id',p.id).maybeSingle();
+ const paid=!!sub&&['pro','elite'].includes(sub.plan)&&['active','trialing'].includes(sub.status);
+ ZasoProfiles.render(document.getElementById('stage'),p,links||[],{showAd:!paid,showBrand:!paid,onAdult:showAdultWarning});
+ if(window.ZasoEffects)ZasoEffects.apply(p.theme||{});
+})().catch(err=>{
+ console.error('Profile load error',err);
+ document.getElementById('card').textContent='Unable to load profile. Please try again.';
+});
+</script>
+</body>
+</html>

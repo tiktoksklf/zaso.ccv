@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Explore profile templates — zaso.cc</title>
+<link rel="stylesheet" href="templates.css"><link rel="stylesheet" href="social.css"><link rel="stylesheet" href="effects.css">
+<style>
+*{box-sizing:border-box}body{margin:0}.preview-nav{position:fixed;z-index:12;top:14px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;background:#11121ef2;border:1px solid #ffffff30;border-radius:18px;padding:8px;backdrop-filter:blur(22px);box-shadow:0 15px 50px #0008;width:max-content;max-width:calc(100% - 24px)}.preview-nav button,.preview-nav a{font:700 11px system-ui;color:#eee;background:#ffffff15;border:1px solid #ffffff20;padding:8px 10px;border-radius:9px;cursor:pointer;text-decoration:none;white-space:nowrap}.preview-nav button[aria-pressed="true"]{background:#c7adee;color:#180e20}.preview-nav .back{color:#d9b8ff;border-color:#a48ec850}.profile-stage{padding-top:142px;min-height:100vh}.preview-note{position:fixed;z-index:11;bottom:14px;right:14px;padding:8px 12px;color:#ebe6f5;background:#14121cde;border:1px solid #ffffff26;border-radius:11px;font:11px system-ui;backdrop-filter:blur(12px)}.preview-tools{position:fixed;z-index:11;bottom:14px;left:14px;max-width:calc(100% - 28px)}.zaso-preview-settings{position:static}.z-demo .creator-links a{cursor:default}@media(max-width:840px){.preview-nav{width:calc(100% - 18px)}.profile-stage{padding-top:175px}}@media(max-width:530px){.profile-stage{padding-top:225px}.preview-nav button{font-size:10px;padding:7px}.preview-note{position:relative;display:block;bottom:auto;right:auto;text-align:center;border-radius:0}.preview-tools{bottom:10px}.zaso-preview-settings{font-size:10px;gap:5px}}
+</style>
+</head>
+<body>
+<nav class="preview-nav" id="nav" aria-label="Template selection"><a class="back" href="dashboard.html">← Dashboard</a></nav>
+<div class="preview-tools"><div class="zaso-preview-settings" id="effectPanel"><strong>Atmosphere</strong><label><input type="checkbox" data-fx="snow"> ❄ Snow</label><label><input type="checkbox" data-fx="rain"> 🌧 Rain</label><label><input type="checkbox" data-fx="storm"> ⛈ Storm</label><label><input type="checkbox" data-fx="floating"> Float</label><label><input type="checkbox" data-fx="glow"> Glow</label><label><input type="checkbox" data-fx="sparkle"> ✦ Sparkle</label></div></div>
+<main id="stage" class="profile-stage" data-template="afterhours"><section class="creator" aria-live="polite"></section></main>
+<div class="preview-note">Demo profile · Sample wallet balance, not live funds</div>
+<script src="social.js"></script><script src="wallet.js"></script><script src="profile-renderer.js"></script><script src="effects.js"></script>
+<script>
+const stage=document.getElementById('stage');const nav=document.getElementById('nav');const buttons=[];
+function choose(id){
+ id=ZasoProfiles.canonical(id);
+ ZasoProfiles.render(stage,ZasoProfiles.demoProfile(id),ZasoProfiles.demoLinks(),{demo:true,showAd:false});
+ const url=new URL(location.href);url.searchParams.set('t',id);history.replaceState(null,'',url);
+ buttons.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.id===id)));
+}
+for(const template of ZasoProfiles.TEMPLATES){
+ const b=document.createElement('button');b.type='button';b.textContent=template.name;b.dataset.id=template.id;b.onclick=()=>choose(template.id);nav.append(b);buttons.push(b);
+}
+choose(new URLSearchParams(location.search).get('t')||'afterhours');
+const fxChecks=[...document.querySelectorAll('[data-fx]')];
+function updateFx(){
+ const selected=fxChecks.filter(x=>x.checked).map(x=>x.dataset.fx);
+ ZasoEffects.apply({weather:selected.includes('storm')?'storm':selected.includes('rain')?'rain':selected.includes('snow')?'snow':'none',floating:selected.includes('floating'),glow:selected.includes('glow'),sparkle:selected.includes('sparkle')});
+}
+fxChecks.forEach(x=>x.addEventListener('change',()=>{
+ if(x.checked&&['snow','rain','storm'].includes(x.dataset.fx))fxChecks.filter(y=>['snow','rain','storm'].includes(y.dataset.fx)&&y!==x).forEach(y=>y.checked=false);
+ updateFx();
+}));updateFx();
+</script>
+</body></html>
