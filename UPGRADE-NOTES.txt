@@ -1,0 +1,7 @@
+ZASO PREMIUM PROFILE CUSTOMIZATION
+
+Includes five templates, atmospheric effects (snow/rain/storm), floating cards, glow, sparkle, animated GIF icon URL per social link, existing adult-content warning.
+
+Upload all files to GitHub Pages root; preserve CNAME. No database migrations needed: effects stored in profiles.theme JSONB and GIF URL in profile_links.icon text.
+
+GIFs should use trusted HTTPS hosting. Animated images and heavy weather can affect performance; respects prefers-reduced-motion.

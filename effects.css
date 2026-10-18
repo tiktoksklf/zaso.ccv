@@ -1,0 +1,26 @@
+/* zaso motion & atmosphere */
+.zaso-weather{position:fixed;inset:0;z-index:2;pointer-events:none;width:100%;height:100%;opacity:.9}
+.zaso-lightning{position:fixed;inset:0;z-index:3;pointer-events:none;background:radial-gradient(ellipse at 50% 10%,#e6e9ffbb,#b5c7ff22 55%,transparent 80%);opacity:0}
+.zaso-lightning.flash{animation:zaso-flash .65s ease-out}
+@keyframes zaso-flash{0%,15%,29%{opacity:0}5%,22%{opacity:.85}35%{opacity:.2}100%{opacity:0}}
+.profile-stage .creator{position:relative;z-index:4;transition:transform .45s ease,box-shadow .45s ease}
+.profile-stage .creator-links a{transition:transform .22s ease,box-shadow .22s ease,filter .22s ease}
+.profile-stage .creator-links a:hover{transform:translateY(-4px) scale(1.015);filter:brightness(1.13)}
+.zaso-link-gif{height:24px;width:24px;object-fit:cover;border-radius:7px;flex-shrink:0}
+.zaso-entrance{animation:zaso-enter .7s cubic-bezier(.16,1,.3,1) both}
+@keyframes zaso-enter{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.zaso-creator-glow .creator{box-shadow:0 0 45px var(--halo),var(--shadow)!important}
+.zaso-floating .creator{animation:zaso-float 6s ease-in-out infinite}
+@keyframes zaso-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.zaso-sparkle:after{content:'✦';position:fixed;top:16%;right:13%;font-size:65px;color:var(--accent);opacity:.22;animation:zaso-spin 18s linear infinite;pointer-events:none}
+@keyframes zaso-spin{to{transform:rotate(360deg)}}
+.zaso-settings{margin:22px 0;padding:20px;border:1px solid #ffffff22;border-radius:18px;background:#ffffff08}
+.zaso-settings h3{margin:0 0 6px}.zaso-settings p{font-size:13px;opacity:.72;margin:0 0 16px}
+.zaso-toggles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.zaso-toggles label{display:flex;align-items:center;gap:9px;padding:12px;border:1px solid #ffffff20;border-radius:12px;background:#ffffff08;cursor:pointer;font-size:13px}
+.zaso-toggles input{width:17px;height:17px;accent-color:#c7adee}
+.zaso-preview-settings{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px;border-radius:16px;background:#11121de8;border:1px solid #ffffff30;color:#fff;font:12px system-ui;backdrop-filter:blur(18px)}
+.zaso-preview-settings label{display:flex;align-items:center;gap:5px;cursor:pointer}
+.zaso-preview-settings input{accent-color:#c7adee}
+@media(max-width:600px){.zaso-toggles{grid-template-columns:1fr}.zaso-preview-settings{max-width:95vw;justify-content:center}}
+@media(prefers-reduced-motion:reduce){.zaso-floating .creator,.zaso-sparkle:after,.zaso-entrance{animation:none!important}.zaso-weather,.zaso-lightning{display:none!important}}
